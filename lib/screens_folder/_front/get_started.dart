@@ -1,9 +1,10 @@
+import 'package:ff_driver/screens_folder/_front/getstarted.dart';
 import 'package:ff_driver/shared_folder/_buttons/default_button.dart';
 import 'package:ff_driver/shared_folder/_constants/FadeAnimation.dart';
 import 'package:ff_driver/shared_folder/_constants/size_config.dart';
 import 'package:flutter/material.dart';
 
-class GetStarted extends StatelessWidget {
+class GetStartedIntro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -53,8 +54,21 @@ class GetStarted extends StatelessWidget {
                             text: "Get Started",
                             color: Colors.blue[300],
                             press: () {
-                              Navigator.of(context)
-                                  .pushReplacementNamed('/welcome');
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      FadeAnimation(
+                                          1,
+                                          GetStarted(
+                                            title:
+                                                "Create an Account? Send us an email.",
+                                            description:
+                                                "With an account, your data will be securely saved, allowing you to access it from a single devices.",
+                                            primaryButtonText: "Proceed",
+                                            primaryButtonRoute: "/login",
+                                            secondaryButtonText: 'Cacnel',
+                                            secondaryButtonRoute: '/intro',
+                                          )));
                             },
                           )),
                       SizedBox(height: getProportionateScreenHeight(50)),

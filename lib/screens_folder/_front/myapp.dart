@@ -1,16 +1,24 @@
-import 'package:ff_driver/screens_folder/_front/get_started.dart';
+import 'package:ff_driver/models_folder/user.dart';
 import 'package:ff_driver/screens_folder/_front/routes.dart';
+import 'package:ff_driver/services_folder/_database/auth.dart';
 import 'package:ff_driver/shared_folder/_constants/theme.dart';
+import 'package:ff_driver/wrapper_folder/wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: theme(),
-      home: GetStarted(),
-      routes: routes,
+    return MultiProvider(
+      providers: [
+        StreamProvider<User>.value(value: AuthService().user),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: theme(),
+        home: Wrapper(),
+        routes: routes,
+      ),
     );
   }
 }

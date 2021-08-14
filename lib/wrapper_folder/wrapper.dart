@@ -12,7 +12,7 @@ class Wrapper extends StatelessWidget {
     if (user != null) {
       return Splash(route: '/userwrapper');
     } else {
-      return GetStarted();
+      return GetStartedIntro();
     }
   }
 }

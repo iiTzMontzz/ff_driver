@@ -27,7 +27,7 @@ class _SignupState extends State<Signup> {
   var _fullname = TextEditingController();
   var _email = TextEditingController();
   String _status = 'Enabled';
-  String _type = 'Passenger';
+  String _type = 'Driver';
   bool loading = false;
 
   void showSnackBar(String title) {
@@ -59,7 +59,7 @@ class _SignupState extends State<Signup> {
     try {
       if (uid != null) {
         DatabaseReference dbref =
-            FirebaseDatabase.instance.reference().child('users/$uid');
+            FirebaseDatabase.instance.reference().child('drivers/$uid');
         Map userMap = {
           'Email': _email.text,
           'FullName': _fullname.text,
