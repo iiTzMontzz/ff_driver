@@ -8,7 +8,7 @@ import 'package:ff_driver/shared_folder/_buttons/trans_button.dart';
 import 'package:ff_driver/shared_folder/_constants/constants.dart';
 import 'package:ff_driver/shared_folder/_constants/custom_surfix_icon.dart';
 import 'package:ff_driver/shared_folder/_constants/form_error.dart';
-import 'package:ff_driver/shared_folder/_constants/loading.dart';
+import 'package:ff_driver/shared_folder/_constants/progressDialog.dart';
 import 'package:ff_driver/shared_folder/_constants/size_config.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -26,16 +26,14 @@ class _SignupState extends State<Signup> {
   final _auth = AuthService();
   var _fullname = TextEditingController();
   var _email = TextEditingController();
-  String _status = 'Enabled';
-  String _type = 'Driver';
-  bool loading = false;
 
   void showSnackBar(String title) {
     final snackbar = SnackBar(
       content: Text(
         title,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 18, fontFamily: 'Muli'),
+        style: TextStyle(
+            fontSize: getProportionateScreenHeight(18), fontFamily: 'Muli'),
       ),
     );
     scaffoldkey.currentState.showSnackBar(snackbar);
@@ -55,9 +53,15 @@ class _SignupState extends State<Signup> {
       });
   }
 
-  void register(String uid, phone) async {
+  void register(String uid, String phone) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) =>
+            ProgressDialog(status: 'Please Wait...'));
     try {
       if (uid != null) {
+        await Data(uid: uid).addDriver(_fullname.text, _email.text, phone);
         DatabaseReference dbref =
             FirebaseDatabase.instance.reference().child('drivers/$uid');
         Map userMap = {
@@ -65,10 +69,15 @@ class _SignupState extends State<Signup> {
           'FullName': _fullname.text,
           'phone': phone,
         };
-        dbref.set(userMap);
+        await dbref.set(userMap);
+        Navigator.of(context).pop();
+        Navigator.of(context).pushReplacementNamed('/cardetails');
+      } else {
+        showSnackBar("Error");
       }
     } catch (e) {
-      showSnackBar(e);
+      Navigator.of(context).pop();
+      showSnackBar(e.message);
     }
   }
 
@@ -76,103 +85,73 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     SizeConfig().init(context);
-    return loading
-        ? Loading()
-        : Scaffold(
-            key: scaffoldkey,
-            body: SafeArea(
-              child: SizedBox(
-                width: double.infinity,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: getProportionateScreenWidth(20)),
-                  child: SingleChildScrollView(
+    return Scaffold(
+      key: scaffoldkey,
+      body: SafeArea(
+        child: SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(20)),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: SizeConfig.screenHeight * 0.05),
+                  Text("Complete Profile", style: headingStyle),
+                  Text(
+                    "Complete your details or continue  \nwith social media",
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: SizeConfig.screenHeight * 0.06),
+                  Form(
+                    key: _formKey,
                     child: Column(
                       children: [
-                        SizedBox(height: SizeConfig.screenHeight * 0.03),
-                        Text("Complete Profile", style: headingStyle),
-                        Text(
-                          "Complete your details or continue  \nwith social media",
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: SizeConfig.screenHeight * 0.06),
-                        Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              buildFullname(),
-                              SizedBox(
-                                  height: getProportionateScreenHeight(30)),
-                              buildEmail(),
-                              SizedBox(
-                                  height: getProportionateScreenHeight(30)),
-                              FormError(errors: errors),
-                              SizedBox(
-                                  height: getProportionateScreenHeight(40)),
-                              DefaultButton(
-                                text: "continue",
-                                color: Colors.blue[400],
-                                press: () async {
-                                  if (_formKey.currentState.validate()) {
-                                    _formKey.currentState.save();
-                                    var connResult = await Connectivity()
-                                        .checkConnectivity();
-                                    if (connResult !=
-                                            ConnectivityResult.mobile &&
-                                        connResult != ConnectivityResult.wifi) {
-                                      showSnackBar("Check Internet Connection");
-                                      return;
-                                    }
+                        buildFullname(),
+                        SizedBox(height: getProportionateScreenHeight(30)),
+                        buildEmail(),
+                        SizedBox(height: getProportionateScreenHeight(30)),
+                        FormError(errors: errors),
+                        SizedBox(height: getProportionateScreenHeight(40)),
+                        DefaultButton(
+                          text: "continue",
+                          color: Colors.blue[400],
+                          press: () async {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              var connResult =
+                                  await Connectivity().checkConnectivity();
+                              if (connResult != ConnectivityResult.mobile &&
+                                  connResult != ConnectivityResult.wifi) {
+                                showSnackBar("Check Internet Connection");
+                                return;
+                              }
 
-                                    setState(() {
-                                      loading = true;
-                                    });
-                                    KeyboardUtil.hideKeyboard(context);
-                                    dynamic result = await Data(uid: user.uid)
-                                        .addPassenger(
-                                            _email.text,
-                                            _fullname.text,
-                                            user.phone,
-                                            _status);
-
-                                    if (result == null) {
-                                      await Data(uid: user.uid)
-                                          .addPerson(_type, _status);
-                                      register(user.uid, user.phone);
-                                    } else {
-                                      setState(() {
-                                        loading = false;
-                                      });
-                                    }
-                                  }
-                                },
-                              ),
-                              SizedBox(
-                                  height: getProportionateScreenHeight(30)),
-                              TransparentButton(
-                                text: "Cancel",
-                                press: () async {
-                                  await _auth.signOut();
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/wrapper');
-                                },
-                              )
-                            ],
-                          ),
+                              KeyboardUtil.hideKeyboard(context);
+                              register(user.uid, user.phone);
+                            }
+                          },
                         ),
                         SizedBox(height: getProportionateScreenHeight(30)),
-                        Text(
-                          "By continuing your confirm that you agree \nwith our Term and Condition",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.caption,
-                        ),
+                        TransparentButton(
+                          text: "Cancel",
+                          press: () async {
+                            await _auth.signOut();
+                            Navigator.of(context)
+                                .pushReplacementNamed('/wrapper');
+                          },
+                        )
                       ],
                     ),
                   ),
-                ),
+                  SizedBox(height: getProportionateScreenHeight(30)),
+                ],
               ),
             ),
-          );
+          ),
+        ),
+      ),
+    );
   }
 
   TextFormField buildFullname() {

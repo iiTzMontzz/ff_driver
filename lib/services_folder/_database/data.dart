@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ff_driver/models_folder/passenger.dart';
+import 'package:ff_driver/models_folder/driver.dart';
 import 'package:ff_driver/models_folder/person.dart';
+import 'package:ff_driver/models_folder/vehicle.dart';
 
 class Data {
   final String uid;
@@ -28,34 +29,62 @@ class Data {
     return _db.collection('Persons').document(uid).snapshots().map(_person);
   }
 
-  //Add new User
-  Future addPassenger(
-      String email, String fullname, String phoneNumber, String status) async {
-    return await _db.collection('Passenger').document(uid).setData({
+  //Add Driver
+  Future addDriver(String fullname, String email, String phone) async {
+    return await _db.collection('Drivers').document(uid).setData({
       'uid': uid,
-      'Email': email,
       'Fullname': fullname,
-      'Status': status,
-      'Phonenumber': phoneNumber,
+      'Email': email,
+      'phone': phone,
     });
   }
 
-  //Datasnpshot of the User
-  Passenger _passenger(DocumentSnapshot snapshot) {
-    return Passenger(
+  //DocumentSnapshot Driver
+  Driver _drivers(DocumentSnapshot snapshot) {
+    return Driver(
         uid: uid,
-        email: snapshot.data['Email'],
         fullname: snapshot.data['Fullname'],
-        status: snapshot.data['Status'],
-        phonenumber: snapshot.data['Phonenumber']);
+        email: snapshot.data['Email'],
+        phone: snapshot.data['phone']);
   }
 
-  //Stream User
-  Stream<Passenger> get passengerData {
+  //Stream Driver
+  Stream<Driver> get driverData {
+    return _db.collection('Drivers').document(uid).snapshots().map(_drivers);
+  }
+
+  //Adding Vehicle
+  Future addDriverVehicle(String model, String carcolor, String plateno) async {
+    return await _db
+        .collection('Drivers')
+        .document(uid)
+        .collection('Vehicles')
+        .document(uid)
+        .setData({
+      'uid': uid,
+      'Model': model,
+      'Color': carcolor,
+      'plateNo': plateno,
+    });
+  }
+
+  //Document Snapshot for Vehicle
+  Vehicle _vehicleList(DocumentSnapshot snapshot) {
+    return Vehicle(
+        uid: uid,
+        model: snapshot.data['Model'],
+        color: snapshot.data['Color'],
+        plateNo: snapshot.data['plateNo']);
+  }
+
+  //Stream for Vehicles
+  Stream<Vehicle> get vehicles {
     return _db
-        .collection('Passenger')
+        .collection('Drivers')
+        .document(uid)
+        .collection('Vehicles')
         .document(uid)
         .snapshots()
-        .map(_passenger);
+        .map(_vehicleList);
   }
 }

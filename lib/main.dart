@@ -1,5 +1,5 @@
 import 'package:ff_driver/screens_folder/_front/myapp.dart';
-import 'package:ff_driver/shared_folder/key.dart';
+import 'package:ff_driver/shared_folder/_global/key.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

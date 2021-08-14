@@ -1,3 +1,4 @@
+import 'package:ff_driver/authentication_folder/car_details.dart';
 import 'package:ff_driver/authentication_folder/login.dart';
 import 'package:ff_driver/authentication_folder/sign_up.dart';
 import 'package:ff_driver/screens_folder/_front/get_started.dart';
@@ -17,4 +18,5 @@ final Map<String, WidgetBuilder> routes = {
   '/upassnger': (BuildContext context) => UPassnger(),
   '/userwrapper': (BuildContext context) => UserWrapper(),
   '/wrapper': (BuildContext context) => Wrapper(),
+  '/cardetails': (BuildContext context) => CarDetails(),
 };
