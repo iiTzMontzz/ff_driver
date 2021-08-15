@@ -2,7 +2,7 @@ import 'package:ff_driver/authentication_folder/car_details.dart';
 import 'package:ff_driver/authentication_folder/login.dart';
 import 'package:ff_driver/authentication_folder/sign_up.dart';
 import 'package:ff_driver/screens_folder/_front/get_started.dart';
-import 'package:ff_driver/screens_folder/_front/home.dart';
+import 'package:ff_driver/screens_folder/_pages/_bottom_nav_bar/home.dart';
 import 'package:ff_driver/wrapper_folder/onReview.dart';
 import 'package:ff_driver/wrapper_folder/upassenger.dart';
 import 'package:ff_driver/wrapper_folder/user_wrapper.dart';
