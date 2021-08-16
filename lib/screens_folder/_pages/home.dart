@@ -4,9 +4,14 @@ import 'package:ff_driver/shared_folder/_constants/splash.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
-  final AuthService _auth = AuthService();
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
 
+class _HomeState extends State<Home> {
+  final AuthService _auth = AuthService();
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,9 +71,10 @@ class Home extends StatelessWidget {
                           color: Colors.white,
                           image: 'assets/images/autonomous-car.png',
                           onTap: () {
+                            Navigator.of(context).pop();
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    Splash(route: '/go_online')));
+                                    Splash(route: '/getonline')));
                           }),
                       buildPetCategory(
                           category: 'Earnings',

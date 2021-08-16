@@ -2,6 +2,7 @@ import 'package:ff_driver/authentication_folder/car_details.dart';
 import 'package:ff_driver/authentication_folder/login.dart';
 import 'package:ff_driver/authentication_folder/sign_up.dart';
 import 'package:ff_driver/screens_folder/_front/get_started.dart';
+import 'package:ff_driver/screens_folder/_pages/_functions/get_online.dart';
 import 'package:ff_driver/screens_folder/_pages/home.dart';
 import 'package:ff_driver/wrapper_folder/onReview.dart';
 import 'package:ff_driver/wrapper_folder/upassenger.dart';
@@ -19,4 +20,5 @@ final Map<String, WidgetBuilder> routes = {
   '/userwrapper': (BuildContext context) => UserWrapper(),
   '/wrapper': (BuildContext context) => Wrapper(),
   '/cardetails': (BuildContext context) => CarDetails(),
+  '/getonline': (BuildContext context) => GetOnline(),
 };
