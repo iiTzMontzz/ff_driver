@@ -25,7 +25,7 @@ class _GetOnlineState extends State<GetOnline> {
   var locationOptions = LocationOptions(
       accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
   String titlestatus = 'OFFLINE';
-  Color colorstatus = Colors.grey[400];
+  Color colorstatus = Colors.redAccent[400];
   bool isStatus = false;
 
   @override
@@ -40,7 +40,6 @@ class _GetOnlineState extends State<GetOnline> {
     return Stack(
       children: [
         GoogleMap(
-          padding: EdgeInsets.only(bottom: 130),
           myLocationButtonEnabled: true,
           myLocationEnabled: true,
           mapType: MapType.normal,
@@ -91,6 +90,8 @@ class _GetOnlineState extends State<GetOnline> {
             ),
           ),
         ),
+
+        //Offline and Online Button
         Positioned(
           left: 0,
           right: 0,
@@ -127,7 +128,7 @@ class _GetOnlineState extends State<GetOnline> {
                                 goOffline(user.uid);
                                 Navigator.of(context).pop();
                                 setState(() {
-                                  colorstatus = Colors.grey[400];
+                                  colorstatus = Colors.redAccent[400];
                                   titlestatus = 'OFFLINE';
                                   isStatus = false;
                                 });
@@ -162,7 +163,7 @@ class _GetOnlineState extends State<GetOnline> {
 
 //Going online using Geofire
   void goOnline(String uid) {
-    Geofire.initialize('AvailableDrivers');
+    Geofire.initialize('availableDrivers');
     Geofire.setLocation(
         uid, currentPosition.latitude, currentPosition.longitude);
 

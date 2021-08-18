@@ -24,7 +24,9 @@ class MainButton extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-                fontSize: 20, fontFamily: 'Muli', fontWeight: FontWeight.w600),
+                fontSize: getProportionateScreenWidth(20),
+                fontFamily: 'Muli',
+                fontWeight: FontWeight.w600),
           ),
         ),
       ),

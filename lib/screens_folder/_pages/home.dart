@@ -145,6 +145,7 @@ class _HomeState extends State<Home> {
                           image: 'assets/images/exit.png',
                           onTap: () async {
                             await _auth.signOut();
+                            Navigator.of(context).pop();
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) =>
                                     Splash(route: '/wrapper')));
