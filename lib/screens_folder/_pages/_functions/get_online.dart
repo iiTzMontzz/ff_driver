@@ -31,7 +31,7 @@ class _GetOnlineState extends State<GetOnline> {
   @override
   void initState() {
     super.initState();
-    HelperMethod.getcurrentUserInfo();
+    HelperMethod.getcurrentUserInfo(context);
   }
 
   @override

@@ -6,7 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 
 class HelperMethod {
   //Get user Information
-  static void getcurrentUserInfo() async {
+  static void getcurrentUserInfo(context) async {
     currentuser = await FirebaseAuth.instance.currentUser();
     String uid = currentuser.uid;
 
@@ -19,7 +19,7 @@ class HelperMethod {
       }
       PushNotificationService pushNotificationService =
           PushNotificationService();
-      pushNotificationService.initialize();
+      pushNotificationService.initialize(context);
       pushNotificationService.getToken();
     });
   }
