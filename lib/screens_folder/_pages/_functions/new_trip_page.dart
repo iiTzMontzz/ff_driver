@@ -93,7 +93,7 @@ class _NewTripPageState extends State<NewTripPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "20 mins",
+                      durationString,
                       style: TextStyle(
                         fontFamily: 'Muli',
                         fontSize: getProportionateScreenHeight(16),
@@ -364,11 +364,37 @@ class _NewTripPageState extends State<NewTripPage> {
         _markers.add(movingmarker);
       });
       oldPosition = pos;
+      updateTripDetails();
       Map locationMap = {
         'lat': myPosition.latitude.toString(),
         'lng': myPosition.longitude.toString()
       };
       tripRef.child('driver_location').set(locationMap);
     });
+  }
+
+//Update Trip Detais
+  void updateTripDetails() async {
+    if (!isRequestedDirection) {
+      isRequestedDirection = true;
+      if (myPosition == null) {
+        return;
+      }
+      var positionLatLng = LatLng(myPosition.latitude, myPosition.longitude);
+      LatLng destinationLatLng;
+      if (status == 'Accepted') {
+        destinationLatLng = widget.tripDetails.pickupLatLng;
+      } else {
+        destinationLatLng = widget.tripDetails.destinationLatLng;
+      }
+      var directionDetails = await HelperMethod.getDirectionDetails(
+          positionLatLng, destinationLatLng);
+      if (directionDetails != null) {
+        setState(() {
+          durationString = directionDetails.durationText;
+        });
+      }
+      isRequestedDirection = false;
+    }
   }
 }
