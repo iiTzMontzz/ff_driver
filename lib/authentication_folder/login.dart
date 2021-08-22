@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
                   FadeAnimation(
                       2,
                       Text(
-                        "Welcome Back",
+                        "Welcome Back!",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: getProportionateScreenWidth(28),
@@ -80,7 +80,7 @@ class _LoginState extends State<Login> {
                   FadeAnimation(
                       2,
                       Text(
-                        "Sign in with your email and password  \nor continue with social media",
+                        "Sign in with your phone number",
                         textAlign: TextAlign.center,
                       )),
                   SizedBox(height: SizeConfig.screenHeight * 0.12),

@@ -97,9 +97,9 @@ class _SignupState extends State<Signup> {
               child: Column(
                 children: [
                   SizedBox(height: SizeConfig.screenHeight * 0.05),
-                  Text("Complete Profile", style: headingStyle),
+                  Text("Ehatid Driver", style: headingStyle),
                   Text(
-                    "Complete your details or continue  \nwith social media",
+                    "Complete your details",
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: SizeConfig.screenHeight * 0.06),

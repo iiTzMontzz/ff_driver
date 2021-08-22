@@ -363,6 +363,12 @@ class _NewTripPageState extends State<NewTripPage> {
         _markers.removeWhere((marker) => marker.markerId.value == 'moving');
         _markers.add(movingmarker);
       });
+      oldPosition = pos;
+      Map locationMap = {
+        'lat': myPosition.latitude.toString(),
+        'lng': myPosition.longitude.toString()
+      };
+      tripRef.child('driver_location').set(locationMap);
     });
   }
 }

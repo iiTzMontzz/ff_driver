@@ -22,7 +22,7 @@ class GetStartedIntro extends StatelessWidget {
                     FadeAnimation(
                         1,
                         Text(
-                          "Fur Fetch +",
+                          "Ehatid Driver",
                           style: TextStyle(
                             fontSize: getProportionateScreenWidth(36),
                             color: Colors.blue,
