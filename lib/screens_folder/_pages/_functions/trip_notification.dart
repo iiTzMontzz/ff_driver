@@ -1,10 +1,15 @@
 import 'package:ff_driver/models_folder/trip_details.dart';
 import 'package:ff_driver/models_folder/user.dart';
+import 'package:ff_driver/screens_folder/_pages/_functions/new_trip_page.dart';
+import 'package:ff_driver/services_folder/_helper/helper_method.dart';
 import 'package:ff_driver/shared_folder/_buttons/second_button.dart';
+import 'package:ff_driver/shared_folder/_constants/progressDialog.dart';
 import 'package:ff_driver/shared_folder/_constants/size_config.dart';
 import 'package:ff_driver/shared_folder/_global/global_var.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 class TripNotification extends StatelessWidget {
   final TripDetails tripDetails;
@@ -101,7 +106,7 @@ class TripNotification extends StatelessWidget {
                   Expanded(
                     child: Container(
                       child: MyButton2(
-                        color: Colors.grey[400],
+                        color: Colors.red[400],
                         title: 'Decline',
                         onPressed: () async {
                           assetsAudioPlayer.stop();
@@ -117,7 +122,8 @@ class TripNotification extends StatelessWidget {
                         color: Colors.greenAccent[400],
                         title: 'Accept',
                         onPressed: () async {
-                          // checkAvailability(user.uid, context);
+                          assetsAudioPlayer.stop();
+                          checkAvailability(user.uid, context);
                         },
                       ),
                     ),
@@ -130,5 +136,47 @@ class TripNotification extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void checkAvailability(String uid, context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) =>
+            ProgressDialog(status: 'Accepting Trip...'));
+    DatabaseReference newTripRef =
+        FirebaseDatabase.instance.reference().child('drivers/$uid/newTrip');
+    newTripRef.once().then((DataSnapshot snapshot) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      String thisTripID = '';
+      if (snapshot.value != null) {
+        thisTripID = snapshot.value.toString();
+      } else {
+        assetsAudioPlayer.stop();
+        Toast.show("Trip Request Not Found", context,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      }
+      if (thisTripID == tripDetails.tripId) {
+        assetsAudioPlayer.stop();
+        newTripRef.set('Accepted');
+        HelperMethod.disableHomeTabLocationUpdates(uid);
+        print("Trip Accepted");
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => NewTripPage(tripDetails: tripDetails)));
+      } else if (thisTripID == 'Canceled') {
+        assetsAudioPlayer.stop();
+        Toast.show("Trip Request Canceled", context,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      } else if (thisTripID == 'timeout') {
+        assetsAudioPlayer.stop();
+        Toast.show("Trip Request Timed out", context,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      } else {
+        assetsAudioPlayer.stop();
+        Toast.show("Trip Request Not Found", context,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      }
+    });
   }
 }

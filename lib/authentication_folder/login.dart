@@ -125,6 +125,7 @@ class _LoginState extends State<Login> {
                             2.6,
                             TransparentButton(
                               text: "Cancel",
+                              color: Colors.blue,
                               press: () {
                                 KeyboardUtil.hideKeyboard(context);
                                 Navigator.of(context)

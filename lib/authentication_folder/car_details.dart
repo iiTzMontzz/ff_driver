@@ -134,6 +134,7 @@ class _CarDetailsState extends State<CarDetails> {
                           1.7,
                           TransparentButton(
                             text: "Cancel",
+                            color: Colors.blue,
                             press: () async {
                               await _auth.signOut();
                               Navigator.of(context)

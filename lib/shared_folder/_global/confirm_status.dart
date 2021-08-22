@@ -1,5 +1,6 @@
+import 'package:ff_driver/shared_folder/_buttons/default_button.dart';
+import 'package:ff_driver/shared_folder/_buttons/trans_button.dart';
 import 'package:ff_driver/shared_folder/_constants/size_config.dart';
-import 'package:ff_driver/shared_folder/_buttons/second_button.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmStatus extends StatelessWidget {
@@ -73,10 +74,10 @@ class ConfirmStatus extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Container(
-                      child: MyButton2(
-                        color: Colors.grey[400],
-                        title: 'Cancel',
-                        onPressed: () {
+                      child: TransparentButton(
+                        text: 'Cancel',
+                        color: Colors.black,
+                        press: () {
                           Navigator.of(context).pop();
                         },
                       ),
@@ -85,10 +86,10 @@ class ConfirmStatus extends StatelessWidget {
                   SizedBox(width: getProportionateScreenWidth(10)),
                   Expanded(
                     child: Container(
-                      child: MyButton2(
+                      child: DefaultButton(
                         color: buttonColor,
-                        title: 'Confirm',
-                        onPressed: onPressed,
+                        text: 'Confirm',
+                        press: onPressed,
                       ),
                     ),
                   ),

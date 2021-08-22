@@ -135,6 +135,7 @@ class _SignupState extends State<Signup> {
                         SizedBox(height: getProportionateScreenHeight(30)),
                         TransparentButton(
                           text: "Cancel",
+                          color: Colors.blue,
                           press: () async {
                             await _auth.signOut();
                             Navigator.of(context)

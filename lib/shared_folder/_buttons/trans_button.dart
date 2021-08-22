@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class TransparentButton extends StatelessWidget {
   final String text;
   final Function press;
+  final Color color;
   const TransparentButton({
     Key key,
     this.text,
     this.press,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -23,7 +25,7 @@ class TransparentButton extends StatelessWidget {
           text,
           style: TextStyle(
             fontSize: getProportionateScreenWidth(18),
-            color: Colors.blue,
+            color: color,
             fontFamily: 'Muli',
           ),
         ),
