@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:ff_driver/models_folder/trip_details.dart';
+import 'package:ff_driver/screens_folder/_pages/_functions/payments_dialog.dart';
 import 'package:ff_driver/services_folder/_helper/helper_method.dart';
 import 'package:ff_driver/services_folder/_helper/map_kit_helper.dart';
 import 'package:ff_driver/shared_folder/_buttons/main_button.dart';
@@ -167,9 +168,33 @@ class _NewTripPageState extends State<NewTripPage> {
                     ),
                     SizedBox(height: getProportionateScreenHeight(25)),
                     MainButton(
-                      title: "Arrived",
-                      color: Colors.greenAccent[400],
-                      onpress: () async {},
+                      title: buttonTitle,
+                      color: buttoncolor,
+                      onpress: () async {
+                        if (status == 'Accepted') {
+                          status = 'Arrived';
+                          tripRef.child('status').set('Arrived');
+                          setState(() {
+                            buttonTitle = 'Start';
+                            buttoncolor = Colors.greenAccent[400];
+                          });
+                          HelperMethod.showprogressDialog(
+                              context, 'Getting Directions....');
+                          await getDirections(widget.tripDetails.pickupLatLng,
+                              widget.tripDetails.destinationLatLng);
+                          Navigator.of(context).pop();
+                        } else if (status == 'Arrived') {
+                          status = 'OnTrip';
+                          tripRef.child('status').set('OnTrip');
+                          setState(() {
+                            buttonTitle = 'End';
+                            buttoncolor = Colors.redAccent[400];
+                          });
+                          startTimer();
+                        } else if (status == 'OnTrip') {
+                          endTrip(currentDriverinfo.id);
+                        }
+                      },
                     )
                   ],
                 ),
@@ -230,7 +255,7 @@ class _NewTripPageState extends State<NewTripPage> {
     setState(() {
       Polyline polyline = Polyline(
         polylineId: PolylineId('polyID'),
-        color: Colors.grey,
+        color: Colors.blueAccent[700],
         points: polylineCoordinates,
         jointType: JointType.round,
         width: 6,
@@ -396,5 +421,35 @@ class _NewTripPageState extends State<NewTripPage> {
       }
       isRequestedDirection = false;
     }
+  }
+
+//Trip Time Duration
+  void startTimer() {
+    const interval = Duration(seconds: 1);
+    timer = Timer.periodic(interval, (timer) {
+      durationCounter++;
+    });
+  }
+
+//Edning Trip
+  void endTrip(String uid) async {
+    timer.cancel();
+    HelperMethod.showprogressDialog(context, 'Calculating fares....');
+    var currentLatLng = LatLng(myPosition.latitude, myPosition.longitude);
+    var directionDetails = await HelperMethod.getDirectionDetails(
+        widget.tripDetails.pickupLatLng, currentLatLng);
+    Navigator.of(context).pop();
+    int fares = HelperMethod.estimatedFare(directionDetails, durationCounter);
+    tripRef.child('fare').set(fares.toString());
+    tripRef.child('status').set('Ended');
+    tripPositionStream.cancel();
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => PaymentsDialog(
+              fare: fares,
+              tripDetails: widget.tripDetails,
+            ));
   }
 }

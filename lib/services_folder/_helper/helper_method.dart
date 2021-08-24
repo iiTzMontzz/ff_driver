@@ -3,10 +3,12 @@ import 'package:ff_driver/models_folder/direction_details.dart';
 import 'package:ff_driver/models_folder/driverdata.dart';
 import 'package:ff_driver/services_folder/_helper/push_notif.dart';
 import 'package:ff_driver/services_folder/_helper/request_helper.dart';
+import 'package:ff_driver/shared_folder/_constants/progressDialog.dart';
 import 'package:ff_driver/shared_folder/_global/global_var.dart';
 import 'package:ff_driver/shared_folder/_global/key.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -75,23 +77,24 @@ class HelperMethod {
     return randInt.toDouble();
   }
 
-  //Fare Computation
-  static int estimatedFare(DirectionDetails directionDetails) {
+//Getting Fare
+  static int estimatedFare(
+      DirectionDetails directionDetails, int durationValue) {
     double baseFare = 40;
     double perKm = (directionDetails.distanceValue / 100) * 3;
-    double perMin = (directionDetails.durationValue / 60) * 2;
+    double perMin = (durationValue / 60) * 2;
 
     double totalFare = baseFare + perKm + perMin;
     return totalFare.truncate();
   }
 
 // Show Progress Dialog
-//   static void showprogressDialog(context, String status) {
-//     showDialog(
-//         context: context,
-//         barrierDismissible: false,
-//         builder: (BuildContext context) => ProgressDialog(
-//               status: status,
-//             ));
-//   }
+  static void showprogressDialog(context, String status) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => ProgressDialog(
+              status: status,
+            ));
+  }
 }
