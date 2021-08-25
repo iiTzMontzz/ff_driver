@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:ff_driver/models_folder/trip_details.dart';
+import 'package:ff_driver/screens_folder/_pages/_functions/canceled_trip.dart';
 import 'package:ff_driver/screens_folder/_pages/_functions/payments_dialog.dart';
 import 'package:ff_driver/services_folder/_helper/helper_method.dart';
 import 'package:ff_driver/services_folder/_helper/map_kit_helper.dart';
@@ -24,7 +25,7 @@ class NewTripPage extends StatefulWidget {
 class _NewTripPageState extends State<NewTripPage> {
   GoogleMapController tripMapController;
   Completer<GoogleMapController> _controller = Completer();
-  // StreamSubscription<Event> tripSubscription;
+  StreamSubscription<Event> tripSubscription;
   Set<Marker> _markers = Set<Marker>();
   Set<Circle> _circles = Set<Circle>();
   Set<Polyline> _polylines = Set<Polyline>();
@@ -43,6 +44,7 @@ class _NewTripPageState extends State<NewTripPage> {
   var geolocator = Geolocator();
   var locationOptions =
       LocationOptions(accuracy: LocationAccuracy.bestForNavigation);
+
   @override
   Widget build(BuildContext context) {
     createMarker();
@@ -348,7 +350,40 @@ class _NewTripPageState extends State<NewTripPage> {
     };
     tripRef.child('driver_location').set(locationMap);
 
-    tripRef.onValue.listen((event) async {});
+    //Check if there is changes during Going to pick up location
+    tripSubscription = tripRef.onValue.listen((event) async {
+      //Checking if event is null
+      if (event.snapshot.value == null) {
+        return;
+      }
+      //Check if status is not null
+      if (event.snapshot.value['status'] != null) {
+        setState(() {
+          tripStatus = event.snapshot.value['status'].toString();
+        });
+      }
+      //Check Trip Status if canceled
+      if (tripStatus == 'Canceled') {
+        var response = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => TripCanceled());
+
+        if (response == 'tripCanceled') {
+          tripRef.onDisconnect();
+          tripRef = null;
+          tripSubscription.cancel();
+          tripSubscription = null;
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.of(context).pushReplacementNamed('/wrapper');
+        }
+      }
+    });
+
+    DatabaseReference historyRef = FirebaseDatabase.instance
+        .reference()
+        .child('drivers/${currentDriverinfo.id}/history/$tripID');
+    historyRef.set(true);
   }
 
 //Create Moving Markers

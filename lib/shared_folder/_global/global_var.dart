@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+String tripStatus = '';
 FirebaseUser currentuser;
 Position currentPosition;
 DriverData currentDriverinfo;
