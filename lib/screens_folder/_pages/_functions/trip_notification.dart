@@ -48,7 +48,7 @@ class TripNotification extends StatelessWidget {
                   fontSize: getProportionateScreenHeight(24),
                   fontWeight: FontWeight.w800),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: getProportionateScreenHeight(30)),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(

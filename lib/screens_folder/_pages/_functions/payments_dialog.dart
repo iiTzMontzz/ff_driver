@@ -1,4 +1,5 @@
 import 'package:ff_driver/models_folder/trip_details.dart';
+import 'package:ff_driver/services_folder/_helper/helper_method.dart';
 import 'package:ff_driver/shared_folder/_buttons/divider.dart';
 import 'package:ff_driver/shared_folder/_buttons/main_button.dart';
 import 'package:ff_driver/shared_folder/_constants/progressDialog.dart';
@@ -93,7 +94,7 @@ class PaymentsDialog extends StatelessWidget {
       tripRequestRef.onDisconnect();
       tripRequestRef.remove();
       tripRequestRef = null;
-
+      HelperMethod.disableHomeTabLocationUpdates(currentDriverinfo.id);
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pop();

@@ -88,116 +88,130 @@ class _NewTripPageState extends State<NewTripPage> {
                       ),
                     ),
                   ]),
-              height: getProportionateScreenHeight(305),
+              height: getProportionateScreenHeight(360),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 24.0, vertical: 18.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      durationString,
-                      style: TextStyle(
-                        fontFamily: 'Muli',
-                        fontSize: getProportionateScreenHeight(16),
-                        color: Colors.grey[700],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            durationString,
+                            style: TextStyle(
+                              fontFamily: 'Muli',
+                              fontSize: getProportionateScreenHeight(16),
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                          SizedBox(height: getProportionateScreenHeight(5)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                (widget.tripDetails != null)
+                                    ? widget.tripDetails.passengerName
+                                    : 'Passenger Name',
+                                style: TextStyle(
+                                  fontFamily: 'Muli',
+                                  fontSize: getProportionateScreenHeight(24),
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 10),
+                                child: Icon(Icons.call),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: getProportionateScreenHeight(25)),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset('assets/images/rec.png',
+                                  height: getProportionateScreenHeight(16),
+                                  width: getProportionateScreenWidth(16)),
+                              SizedBox(width: getProportionateScreenWidth(18)),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    (widget.tripDetails != null)
+                                        ? widget.tripDetails.pickupAddress
+                                        : 'Pick Up Address',
+                                    style: TextStyle(
+                                        fontFamily: 'Muli',
+                                        fontSize:
+                                            getProportionateScreenHeight(20)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: getProportionateScreenHeight(15)),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset('assets/images/pin.png',
+                                  height: getProportionateScreenHeight(16),
+                                  width: getProportionateScreenWidth(16)),
+                              SizedBox(width: getProportionateScreenWidth(18)),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    (widget.tripDetails != null)
+                                        ? widget.tripDetails.destinationAddress
+                                        : 'Destination Address',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontFamily: 'Muli',
+                                        fontSize:
+                                            getProportionateScreenHeight(20)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: getProportionateScreenHeight(25)),
+                          MainButton(
+                            title: buttonTitle,
+                            color: buttoncolor,
+                            onpress: () async {
+                              if (status == 'Accepted') {
+                                status = 'Arrived';
+                                tripRef.child('status').set('Arrived');
+                                setState(() {
+                                  buttonTitle = 'Start';
+                                  buttoncolor = Colors.greenAccent[400];
+                                });
+                                HelperMethod.showprogressDialog(
+                                    context, 'Getting Directions....');
+                                await getDirections(
+                                    widget.tripDetails.pickupLatLng,
+                                    widget.tripDetails.destinationLatLng);
+                                Navigator.of(context).pop();
+                              } else if (status == 'Arrived') {
+                                status = 'OnTrip';
+                                tripRef.child('status').set('OnTrip');
+                                setState(() {
+                                  buttonTitle = 'End';
+                                  buttoncolor = Colors.redAccent[400];
+                                });
+                                startTimer();
+                              } else if (status == 'OnTrip') {
+                                endTrip(currentDriverinfo.id);
+                              }
+                            },
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(20),
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: getProportionateScreenHeight(5)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          (widget.tripDetails != null)
-                              ? widget.tripDetails.passengerName
-                              : 'Passenger Name',
-                          style: TextStyle(
-                            fontFamily: 'Muli',
-                            fontSize: getProportionateScreenHeight(24),
-                            fontWeight: FontWeight.w800,
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 10),
-                          child: Icon(Icons.call),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: getProportionateScreenHeight(25)),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Image.asset('assets/images/rec.png',
-                            height: getProportionateScreenHeight(16),
-                            width: getProportionateScreenWidth(16)),
-                        SizedBox(width: getProportionateScreenWidth(18)),
-                        Expanded(
-                          child: Container(
-                            child: Text(
-                              (widget.tripDetails != null)
-                                  ? widget.tripDetails.pickupAddress
-                                  : 'Pick Up Address',
-                              style: TextStyle(
-                                  fontFamily: 'Muli',
-                                  fontSize: getProportionateScreenHeight(20)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: getProportionateScreenHeight(15)),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Image.asset('assets/images/pin.png',
-                            height: getProportionateScreenHeight(16),
-                            width: getProportionateScreenWidth(16)),
-                        SizedBox(width: getProportionateScreenWidth(18)),
-                        Expanded(
-                          child: Container(
-                            child: Text(
-                              (widget.tripDetails != null)
-                                  ? widget.tripDetails.destinationAddress
-                                  : 'Destination Address',
-                              style: TextStyle(
-                                  fontFamily: 'Muli',
-                                  fontSize: getProportionateScreenHeight(20)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: getProportionateScreenHeight(25)),
-                    MainButton(
-                      title: buttonTitle,
-                      color: buttoncolor,
-                      onpress: () async {
-                        if (status == 'Accepted') {
-                          status = 'Arrived';
-                          tripRef.child('status').set('Arrived');
-                          setState(() {
-                            buttonTitle = 'Start';
-                            buttoncolor = Colors.greenAccent[400];
-                          });
-                          HelperMethod.showprogressDialog(
-                              context, 'Getting Directions....');
-                          await getDirections(widget.tripDetails.pickupLatLng,
-                              widget.tripDetails.destinationLatLng);
-                          Navigator.of(context).pop();
-                        } else if (status == 'Arrived') {
-                          status = 'OnTrip';
-                          tripRef.child('status').set('OnTrip');
-                          setState(() {
-                            buttonTitle = 'End';
-                            buttoncolor = Colors.redAccent[400];
-                          });
-                          startTimer();
-                        } else if (status == 'OnTrip') {
-                          endTrip(currentDriverinfo.id);
-                        }
-                      },
-                    )
                   ],
                 ),
               ),
@@ -220,7 +234,7 @@ class _NewTripPageState extends State<NewTripPage> {
     _controller.complete(controller);
     tripMapController = controller;
     setState(() {
-      mapPaddingBottom = 305;
+      mapPaddingBottom = getProportionateScreenHeight(320);
     });
     var currentLatLng =
         LatLng(currentPosition.latitude, currentPosition.longitude);
