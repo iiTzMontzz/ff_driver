@@ -251,12 +251,9 @@ class _NewTripPageState extends State<NewTripPage> {
         barrierDismissible: false,
         builder: (BuildContext context) =>
             ProgressDialog(status: 'Getting Directions.....'));
-
     var thisDetails =
         await HelperMethod.getDirectionDetails(pickupLatLng, destinationLatLng);
-
     Navigator.of(context).pop();
-
     PolylinePoints polylinepoints = PolylinePoints();
     List<PointLatLng> result =
         polylinepoints.decodePolyline(thisDetails.encodedPoints);
