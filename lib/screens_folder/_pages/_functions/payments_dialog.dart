@@ -89,12 +89,7 @@ class PaymentsDialog extends StatelessWidget {
         double adjustedEarnings = (fares.toDouble() * 0.85);
         earningsRef.set(adjustedEarnings.toStringAsFixed(2));
       }
-      tripRef.onDisconnect();
-      tripRef = null;
-      tripRequestRef.onDisconnect();
-      tripRequestRef.remove();
-      tripRequestRef = null;
-      HelperMethod.disableHomeTabLocationUpdates(currentDriverinfo.id);
+
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pop();

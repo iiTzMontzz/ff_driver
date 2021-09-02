@@ -33,7 +33,7 @@ class GetStartedIntro extends StatelessWidget {
                     FadeAnimation(
                         1.4,
                         Image.asset(
-                          "assets/images/pet.gif",
+                          "assets/images/logo.png",
                           height: getProportionateScreenHeight(265),
                           width: getProportionateScreenWidth(235),
                         )),
@@ -61,7 +61,7 @@ class GetStartedIntro extends StatelessWidget {
                                           1,
                                           GetStarted(
                                             title:
-                                                "Create an Account? Send us an email.",
+                                                "No Account? Just Register with your phone number.",
                                             description:
                                                 "With an account, your data will be securely saved, allowing you to access it from a single devices.",
                                             primaryButtonText: "Proceed",

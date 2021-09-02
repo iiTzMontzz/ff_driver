@@ -57,16 +57,18 @@ class HelperMethod {
   }
 
   //DIsable Geofire of the Driver
-  static void disableHomeTabLocationUpdates(String uid) {
+  static void disableHomeTabLocationUpdates(String uid) async {
+    bool response = await Geofire.removeLocation(uid);
+    print("HOMETAB LOCATION UPDATE >>> $response");
     hometabPositionStream.pause();
-    Geofire.removeLocation(uid);
   }
 
   //Re Enable Geofire of the Driver
-  static void enableHomeTabLocationUpdates(String uid) {
-    hometabPositionStream.resume();
-    Geofire.setLocation(
+  static void enableHomeTabLocationUpdates(String uid) async {
+    bool response = await Geofire.setLocation(
         uid, currentPosition.latitude, currentPosition.longitude);
+    print("RE ENABLE GEOFIRE >>> $response");
+    hometabPositionStream.resume();
   }
 
   //Generating Random Number
@@ -80,8 +82,11 @@ class HelperMethod {
 //Getting Fare
   static int estimatedFare(
       DirectionDetails directionDetails, int durationValue) {
+    //base Fare
     double baseFare = 40;
+    //fare Per Km php 3
     double perKm = (directionDetails.distanceValue / 100) * 3;
+    //fare per min 2
     double perMin = (durationValue / 60) * 2;
 
     double totalFare = baseFare + perKm + perMin;
