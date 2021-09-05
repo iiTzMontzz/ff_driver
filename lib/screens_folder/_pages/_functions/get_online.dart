@@ -25,6 +25,7 @@ class _GetOnlineState extends State<GetOnline> {
   var locationOptions = LocationOptions(
       accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
   String titlestatus = 'OFFLINE';
+  String status = '';
   Color colorstatus = Colors.redAccent[400];
   bool isStatus = false;
 
@@ -164,7 +165,7 @@ class _GetOnlineState extends State<GetOnline> {
 
 //Going online using Geofire
   void goOnline(String uid) {
-    Geofire.initialize('availableDrivers');
+    Geofire.initialize('aNormal');
     Geofire.setLocation(
         uid, currentPosition.latitude, currentPosition.longitude);
 
