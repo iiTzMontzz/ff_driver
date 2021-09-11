@@ -1,7 +1,7 @@
 import 'package:ff_driver/authentication_folder/sign_up.dart';
 import 'package:ff_driver/models_folder/person.dart';
 import 'package:ff_driver/models_folder/user.dart';
-import 'package:ff_driver/screens_folder/_pages/home.dart';
+import 'package:ff_driver/screens_folder/_pages/_widgets/home.dart';
 import 'package:ff_driver/services_folder/_database/data.dart';
 import 'package:ff_driver/wrapper_folder/onReview.dart';
 import 'package:ff_driver/wrapper_folder/upassenger.dart';

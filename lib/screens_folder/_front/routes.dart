@@ -3,7 +3,9 @@ import 'package:ff_driver/authentication_folder/login.dart';
 import 'package:ff_driver/authentication_folder/sign_up.dart';
 import 'package:ff_driver/screens_folder/_front/get_started.dart';
 import 'package:ff_driver/screens_folder/_pages/_functions/get_online.dart';
-import 'package:ff_driver/screens_folder/_pages/home.dart';
+import 'package:ff_driver/screens_folder/_pages/_widgets/earnings.dart';
+import 'package:ff_driver/screens_folder/_pages/_widgets/_history/history.dart';
+import 'package:ff_driver/screens_folder/_pages/_widgets/home.dart';
 import 'package:ff_driver/wrapper_folder/onReview.dart';
 import 'package:ff_driver/wrapper_folder/upassenger.dart';
 import 'package:ff_driver/wrapper_folder/user_wrapper.dart';
@@ -21,4 +23,6 @@ final Map<String, WidgetBuilder> routes = {
   '/wrapper': (BuildContext context) => Wrapper(),
   '/cardetails': (BuildContext context) => CarDetails(),
   '/getonline': (BuildContext context) => GetOnline(),
+  '/history': (BuildContext context) => TripHistory(),
+  '/earnings': (BuildContext context) => Earnings(),
 };

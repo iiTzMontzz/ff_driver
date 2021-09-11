@@ -1,7 +1,7 @@
 import 'package:ff_driver/services_folder/_database/auth.dart';
+import 'package:ff_driver/services_folder/_helper/helper_method.dart';
 import 'package:ff_driver/shared_folder/_constants/size_config.dart';
 import 'package:ff_driver/shared_folder/_constants/splash.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -11,7 +11,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
+
   @override
+  void initState() {
+    super.initState();
+    HelperMethod.getcurrentUserInfo(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +86,12 @@ class _HomeState extends State<Home> {
                           category: 'Earnings',
                           color: Colors.white,
                           image: 'assets/images/earnings.png',
-                          onTap: () {})
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    Splash(route: '/earnings')));
+                          })
                     ],
                   ),
                 ],
@@ -123,11 +134,11 @@ class _HomeState extends State<Home> {
                           category: 'Past Trips',
                           color: Colors.white,
                           image: 'assets/images/history.png',
-                          onTap: () async {
-                            DatabaseReference dbresf = FirebaseDatabase.instance
-                                .reference()
-                                .child("Test Conn");
-                            await dbresf.set("test conn");
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    Splash(route: '/history')));
                           })
                     ],
                   ),

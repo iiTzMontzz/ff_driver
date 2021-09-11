@@ -1,4 +1,5 @@
 import 'package:ff_driver/models_folder/trip_details.dart';
+import 'package:ff_driver/services_folder/_helper/helper_method.dart';
 import 'package:ff_driver/shared_folder/_buttons/divider.dart';
 import 'package:ff_driver/shared_folder/_buttons/main_button.dart';
 import 'package:ff_driver/shared_folder/_constants/progressDialog.dart';
@@ -59,6 +60,8 @@ class PaymentsDialog extends StatelessWidget {
                 color: Colors.greenAccent[400],
                 onpress: () async {
                   topUpEarnings(fare, context);
+                  HelperMethod.disableHomeTabLocationUpdates(
+                      currentDriverinfo.id);
                 },
               ),
             ),

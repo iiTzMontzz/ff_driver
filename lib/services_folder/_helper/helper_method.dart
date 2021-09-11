@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:ff_driver/models_folder/direction_details.dart';
 import 'package:ff_driver/models_folder/driverdata.dart';
+import 'package:ff_driver/models_folder/history.dart';
+import 'package:ff_driver/services_folder/_database/app_data.dart';
 import 'package:ff_driver/services_folder/_helper/push_notif.dart';
 import 'package:ff_driver/services_folder/_helper/request_helper.dart';
 import 'package:ff_driver/shared_folder/_constants/progressDialog.dart';
@@ -11,6 +13,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HelperMethod {
   //Get user Information
@@ -23,13 +27,15 @@ class HelperMethod {
     userRef.once().then((DataSnapshot snapshot) {
       if (snapshot.value != null) {
         currentDriverinfo = DriverData.fromSnapshot(snapshot);
-        print('HELOOO MY NAME ISSSSSS>>>>>>>>>>>' + currentDriverinfo.fullName);
+        print('HELOOO MY NAME ISSSSSS>>>>>>>>>>>' +
+            currentDriverinfo.fullName +
+            currentDriverinfo.id);
+        getEarningsInfo(context, currentDriverinfo.id);
       }
-      PushNotificationService pushNotificationService =
-          PushNotificationService();
-      pushNotificationService.initialize(context);
-      pushNotificationService.getToken();
     });
+    PushNotificationService pushNotificationService = PushNotificationService();
+    pushNotificationService.initialize(context);
+    pushNotificationService.getToken();
   }
 
 //Gettin Trip request from the Directions APi
@@ -101,5 +107,66 @@ class HelperMethod {
         builder: (BuildContext context) => ProgressDialog(
               status: status,
             ));
+  }
+
+//Earnings Info
+  static void getEarningsInfo(context, String id) {
+    DatabaseReference earningsRef =
+        FirebaseDatabase.instance.reference().child('drivers/$id/earnings');
+    earningsRef.once().then((DataSnapshot snapshot) {
+      if (snapshot.value != null) {
+        String earnings = snapshot.value.toString();
+        Provider.of<AppData>(context, listen: false).getEarnings(earnings);
+        print(earnings);
+      }
+    });
+    DatabaseReference historyRef =
+        FirebaseDatabase.instance.reference().child('drivers/$id/history');
+    historyRef.once().then((DataSnapshot snapshot) {
+      if (snapshot.value != null) {
+        Map<dynamic, dynamic> values = snapshot.value;
+        int tripCount = values.length;
+        // update trip count to data provider
+        Provider.of<AppData>(context, listen: false).updateTripCount(tripCount);
+        print("Trip Count " + tripCount.toString());
+
+        List<String> tripHistoryKeys = [];
+        values.forEach((key, value) {
+          tripHistoryKeys.add(key);
+        });
+
+        // update trip keys to data provider
+        Provider.of<AppData>(context, listen: false)
+            .updateTripKeys(tripHistoryKeys);
+
+        getHistoryData(context);
+      }
+    });
+  }
+
+  static void getHistoryData(context) {
+    var keys = Provider.of<AppData>(context, listen: false).tripHistoryKeys;
+
+    for (String key in keys) {
+      DatabaseReference historyRef =
+          FirebaseDatabase.instance.reference().child('rideRequest/$key');
+
+      historyRef.once().then((DataSnapshot snapshot) {
+        if (snapshot.value != null) {
+          var history = History.fromSnapshot(snapshot);
+          Provider.of<AppData>(context, listen: false)
+              .updateTripHistory(history);
+          print(history.destination);
+        }
+      });
+    }
+  }
+
+  static String formatMyDate(String datestring) {
+    DateTime thisDate = DateTime.parse(datestring);
+    String formattedDate =
+        '${DateFormat.MMMd().format(thisDate)}, ${DateFormat.y().format(thisDate)}';
+
+    return formattedDate;
   }
 }
