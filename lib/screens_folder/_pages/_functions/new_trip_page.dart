@@ -54,9 +54,7 @@ class _NewTripPageState extends State<NewTripPage> {
           GoogleMap(
             padding: EdgeInsets.only(
                 bottom: getProportionateScreenHeight(mapPaddingBottom)),
-            myLocationButtonEnabled: true,
             compassEnabled: true,
-            myLocationEnabled: true,
             mapType: MapType.normal,
             circles: _circles,
             markers: _markers,
@@ -403,7 +401,7 @@ class _NewTripPageState extends State<NewTripPage> {
       ImageConfiguration imageConfiguration =
           createLocalImageConfiguration(context, size: Size(2, 2));
       BitmapDescriptor.fromAssetImage(
-              imageConfiguration, 'assets/images/pawprint.png')
+              imageConfiguration, 'assets/images/paw-print.png')
           .then((icon) {
         movingMarkerIcon = icon;
       });

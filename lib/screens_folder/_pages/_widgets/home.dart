@@ -83,15 +83,16 @@ class _HomeState extends State<Home> {
                                     Splash(route: '/getonline')));
                           }),
                       buildPetCategory(
-                          category: 'Earnings',
-                          color: Colors.white,
-                          image: 'assets/images/earnings.png',
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    Splash(route: '/earnings')));
-                          })
+                        category: 'Earnings',
+                        color: Colors.white,
+                        image: 'assets/images/earnings.png',
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  Splash(route: '/earnings')));
+                        },
+                      ),
                     ],
                   ),
                 ],
@@ -131,15 +132,15 @@ class _HomeState extends State<Home> {
                           image: 'assets/images/user.png',
                           onTap: () {}),
                       buildPetCategory(
-                          category: 'Past Trips',
-                          color: Colors.white,
-                          image: 'assets/images/history.png',
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    Splash(route: '/history')));
-                          })
+                        category: 'Trip Hsitory',
+                        color: Colors.white,
+                        image: 'assets/images/history.png',
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Splash(route: '/history')));
+                        },
+                      ),
                     ],
                   ),
                   Row(
@@ -151,16 +152,17 @@ class _HomeState extends State<Home> {
                           image: 'assets/images/customer-service.png',
                           onTap: () {}),
                       buildPetCategory(
-                          category: 'Log out',
-                          color: Colors.white,
-                          image: 'assets/images/exit.png',
-                          onTap: () async {
-                            await _auth.signOut();
-                            Navigator.of(context).pop();
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    Splash(route: '/wrapper')));
-                          })
+                        category: 'Log out',
+                        color: Colors.white,
+                        image: 'assets/images/exit.png',
+                        onTap: () async {
+                          await _auth.signOut();
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  Splash(route: '/wrapper')));
+                        },
+                      ),
                     ],
                   ),
                 ],
