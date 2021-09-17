@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:ff_driver/messeging/chatroom_list.dart';
 import 'package:ff_driver/models_folder/trip_details.dart';
 import 'package:ff_driver/screens_folder/_pages/_functions/canceled_trip.dart';
 import 'package:ff_driver/screens_folder/_pages/_functions/payments_dialog.dart';
@@ -44,6 +45,13 @@ class _NewTripPageState extends State<NewTripPage> {
   var geolocator = Geolocator();
   var locationOptions =
       LocationOptions(accuracy: LocationAccuracy.bestForNavigation);
+
+// Accepting trip when opening new trip page
+  @override
+  void initState() {
+    super.initState();
+    acceptTrip();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +129,20 @@ class _NewTripPageState extends State<NewTripPage> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(right: 10),
-                                child: Icon(Icons.call),
+                                child: GestureDetector(
+                                  child: Icon(Icons.call),
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) =>
+                                            ChatRoomList(
+                                                tripID: tripRef.key,
+                                                passenger: widget.tripDetails
+                                                    .passengerName));
+                                    print("TRIP ID: " + tripRef.key);
+                                  },
+                                ),
                               ),
                             ],
                           ),
@@ -218,13 +239,6 @@ class _NewTripPageState extends State<NewTripPage> {
         ],
       ),
     );
-  }
-
-// Accepting trip when opening new trip page
-  @override
-  void initState() {
-    super.initState();
-    acceptTrip();
   }
 
   //Updating map controller when the widget is opened
