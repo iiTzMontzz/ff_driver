@@ -11,9 +11,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
-class TripNotification extends StatelessWidget {
+class TripNotification extends StatefulWidget {
   final TripDetails tripDetails;
   const TripNotification({Key key, this.tripDetails}) : super(key: key);
+
+  @override
+  _TripNotificationState createState() => _TripNotificationState();
+}
+
+class _TripNotificationState extends State<TripNotification> {
+  @override
+  void initState() {
+    super.initState();
+    HelperMethod.disableHomeTabLocationUpdates(currentDriverinfo.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -34,7 +46,7 @@ class TripNotification extends StatelessWidget {
           children: [
             SizedBox(height: getProportionateScreenHeight(30)),
             Image.asset(
-              (tripDetails.rideType == 'Normal')
+              (widget.tripDetails.rideType == 'Normal')
                   ? 'assets/images/normal.gif'
                   : 'assets/images/pet.gif',
               height: getProportionateScreenHeight(50),
@@ -42,7 +54,7 @@ class TripNotification extends StatelessWidget {
             ),
             SizedBox(height: getProportionateScreenHeight(16)),
             Text(
-              'Type: ' + tripDetails.rideType,
+              'Type: ' + widget.tripDetails.rideType,
               style: TextStyle(
                   fontFamily: 'Muli',
                   fontSize: getProportionateScreenHeight(24),
@@ -63,7 +75,7 @@ class TripNotification extends StatelessWidget {
                       Expanded(
                         child: Container(
                           child: Text(
-                            tripDetails.pickupAddress,
+                            widget.tripDetails.pickupAddress,
                             style: TextStyle(
                                 fontFamily: 'Muli',
                                 fontSize: getProportionateScreenHeight(20)),
@@ -83,7 +95,7 @@ class TripNotification extends StatelessWidget {
                       Expanded(
                         child: Container(
                           child: Text(
-                            tripDetails.destinationAddress,
+                            widget.tripDetails.destinationAddress,
                             style: TextStyle(
                                 fontFamily: 'Muli',
                                 fontSize: getProportionateScreenHeight(20)),
@@ -109,6 +121,8 @@ class TripNotification extends StatelessWidget {
                         color: Colors.red[400],
                         title: 'Decline',
                         onPressed: () async {
+                          HelperMethod.enableHomeTabLocationUpdates(
+                              currentDriverinfo.id);
                           assetsAudioPlayer.stop();
                           Navigator.of(context).pop();
                         },
@@ -157,22 +171,26 @@ class TripNotification extends StatelessWidget {
         Toast.show("Trip Request Not Found", context,
             duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       }
-      if (thisTripID == tripDetails.tripId) {
+      if (thisTripID == widget.tripDetails.tripId) {
         assetsAudioPlayer.stop();
         newTripRef.set('Accepted');
         HelperMethod.disableHomeTabLocationUpdates(uid);
         print("Trip Accepted");
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => NewTripPage(tripDetails: tripDetails)));
+            builder: (context) =>
+                NewTripPage(tripDetails: widget.tripDetails)));
       } else if (thisTripID == 'Canceled') {
+        HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
         assetsAudioPlayer.stop();
         Toast.show("Trip Request Canceled", context,
             duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       } else if (thisTripID == 'timeout') {
+        HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
         assetsAudioPlayer.stop();
         Toast.show("Trip Request Timed out", context,
             duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       } else {
+        HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
         assetsAudioPlayer.stop();
         Toast.show("Trip Request Not Found", context,
             duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);

@@ -36,6 +36,7 @@ class Data {
       'Fullname': fullname,
       'Email': email,
       'phone': phone,
+      'carType': 'Normal'
     });
   }
 

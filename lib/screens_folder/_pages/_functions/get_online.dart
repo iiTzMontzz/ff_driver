@@ -165,7 +165,7 @@ class _GetOnlineState extends State<GetOnline> {
 
 //Going online using Geofire
   void goOnline(String uid) {
-    Geofire.initialize('aNormal');
+    Geofire.initialize('Drivers');
     Geofire.setLocation(
         uid, currentPosition.latitude, currentPosition.longitude);
 

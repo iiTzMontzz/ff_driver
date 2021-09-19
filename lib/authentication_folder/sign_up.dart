@@ -68,6 +68,7 @@ class _SignupState extends State<Signup> {
           'Email': _email.text,
           'FullName': _fullname.text,
           'phone': phone,
+          'carType': 'Normal'
         };
         await dbref.set(userMap);
         Navigator.of(context).pop();
