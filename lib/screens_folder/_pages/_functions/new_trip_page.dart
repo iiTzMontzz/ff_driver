@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:ff_driver/messeging/chatroom_list.dart';
 import 'package:ff_driver/models_folder/trip_details.dart';
-import 'package:ff_driver/screens_folder/_pages/_functions/canceled_trip.dart';
+import 'package:ff_driver/screens_folder/_pages/_widgets/canceled_trip.dart';
 import 'package:ff_driver/screens_folder/_pages/_functions/payments_dialog.dart';
 import 'package:ff_driver/services_folder/_helper/helper_method.dart';
 import 'package:ff_driver/services_folder/_helper/map_kit_helper.dart';
@@ -199,6 +199,8 @@ class _NewTripPageState extends State<NewTripPage> {
                             title: buttonTitle,
                             color: buttoncolor,
                             onpress: () async {
+                              HelperMethod.disableHomeTabLocationUpdates(
+                                  currentDriverinfo.id);
                               if (status == 'Accepted') {
                                 status = 'Arrived';
                                 tripRef.child('status').set('Arrived');

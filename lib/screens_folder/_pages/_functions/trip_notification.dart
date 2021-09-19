@@ -1,6 +1,7 @@
 import 'package:ff_driver/models_folder/trip_details.dart';
 import 'package:ff_driver/models_folder/user.dart';
 import 'package:ff_driver/screens_folder/_pages/_functions/new_trip_page.dart';
+import 'package:ff_driver/screens_folder/_pages/_widgets/trip_declined.dart';
 import 'package:ff_driver/services_folder/_helper/helper_method.dart';
 import 'package:ff_driver/shared_folder/_buttons/second_button.dart';
 import 'package:ff_driver/shared_folder/_constants/progressDialog.dart';
@@ -9,7 +10,6 @@ import 'package:ff_driver/shared_folder/_global/global_var.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
 
 class TripNotification extends StatefulWidget {
   final TripDetails tripDetails;
@@ -120,11 +120,23 @@ class _TripNotificationState extends State<TripNotification> {
                       child: MyButton2(
                         color: Colors.red[400],
                         title: 'Decline',
-                        onPressed: () async {
-                          HelperMethod.enableHomeTabLocationUpdates(
-                              currentDriverinfo.id);
-                          assetsAudioPlayer.stop();
+                        onPressed: () {
                           Navigator.of(context).pop();
+                          assetsAudioPlayer.stop();
+                          DatabaseReference declinetrip = FirebaseDatabase
+                              .instance
+                              .reference()
+                              .child('drivers/${currentDriverinfo.id}/newTrip');
+                          declinetrip.set('waiting');
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) => TripDecline(
+                                    title: 'Trip Declined',
+                                    description:
+                                        'Youve\'ve just Declined a Trip \n as penalty and to give chance to others you can go online in 1 minute',
+                                    respo: 'decline',
+                                  ));
                         },
                       ),
                     ),
@@ -160,7 +172,7 @@ class _TripNotificationState extends State<TripNotification> {
             ProgressDialog(status: 'Accepting Trip...'));
     DatabaseReference newTripRef =
         FirebaseDatabase.instance.reference().child('drivers/$uid/newTrip');
-    newTripRef.once().then((DataSnapshot snapshot) {
+    newTripRef.once().then((DataSnapshot snapshot) async {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       String thisTripID = '';
@@ -168,32 +180,72 @@ class _TripNotificationState extends State<TripNotification> {
         thisTripID = snapshot.value.toString();
       } else {
         assetsAudioPlayer.stop();
-        Toast.show("Trip Request Not Found", context,
-            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+        var response = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => TripDecline(
+                  title: 'Trip Notification',
+                  description: 'Trip ID not found',
+                  respo: 'notfound',
+                ));
+        if (response == 'notfound') {
+          newTripRef.set('waiting');
+          HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
+        }
       }
       if (thisTripID == widget.tripDetails.tripId) {
         assetsAudioPlayer.stop();
         newTripRef.set('Accepted');
-        HelperMethod.disableHomeTabLocationUpdates(uid);
         print("Trip Accepted");
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
                 NewTripPage(tripDetails: widget.tripDetails)));
+        //Trip has been canceled
       } else if (thisTripID == 'Canceled') {
-        HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
         assetsAudioPlayer.stop();
-        Toast.show("Trip Request Canceled", context,
-            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+        var response = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => TripDecline(
+                  title: 'Trip Notification',
+                  description: 'Trip Request has been canceled',
+                  respo: 'canceledout',
+                ));
+        if (response == 'canceledout') {
+          newTripRef.set('waiting');
+          HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
+        }
+        assetsAudioPlayer.stop();
+        //Trip Timed out
       } else if (thisTripID == 'timeout') {
-        HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
         assetsAudioPlayer.stop();
-        Toast.show("Trip Request Timed out", context,
-            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+        var response = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => TripDecline(
+                  title: 'Trip Notification',
+                  description: 'Trip Request timed out',
+                  respo: 'timedout',
+                ));
+        if (response == 'timedout') {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushNamed('/wrapper');
+        }
+        assetsAudioPlayer.stop();
       } else {
-        HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
         assetsAudioPlayer.stop();
-        Toast.show("Trip Request Not Found", context,
-            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+        var response = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => TripDecline(
+                  title: 'Trip Notification',
+                  description: 'Trip ID not found',
+                  respo: 'notfound',
+                ));
+        if (response == 'notfound') {
+          newTripRef.set('waiting');
+          HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
+        }
       }
     });
   }
