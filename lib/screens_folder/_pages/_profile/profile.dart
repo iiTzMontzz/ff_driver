@@ -4,6 +4,7 @@ import 'package:ff_driver/screens_folder/_pages/_profile/profile_edit.dart';
 import 'package:ff_driver/screens_folder/_pages/_profile/profile_header.dart';
 import 'package:ff_driver/services_folder/_database/data.dart';
 import 'package:ff_driver/shared_folder/_constants/FadeAnimation.dart';
+import 'package:ff_driver/shared_folder/_constants/constants.dart';
 import 'package:ff_driver/shared_folder/_global/global_var.dart';
 import 'package:flutter/material.dart';
 
@@ -84,6 +85,39 @@ class MyProfile extends StatelessWidget {
                                     ));
                           },
                         )),
+                    FadeAnimation(
+                      1.7,
+                      Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              primary: kPrimaryColor,
+                              padding: EdgeInsets.all(20),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                              backgroundColor: Color(0xFFF5F6F9),
+                            ),
+                            onPressed: () {},
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.open_in_new,
+                                  color: Colors.blue[400],
+                                ),
+                                SizedBox(width: 20),
+                                Expanded(
+                                    child: Text(
+                                  'View Car Details',
+                                  style: TextStyle(
+                                      fontFamily: 'Muli',
+                                      fontSize: 14,
+                                      color: Colors.black54),
+                                )),
+                              ],
+                            ),
+                          )),
+                    ),
                   ],
                 ),
               ),

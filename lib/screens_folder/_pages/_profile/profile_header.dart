@@ -16,7 +16,8 @@ class ProfileHeader extends StatelessWidget {
             style: TextStyle(
                 fontSize: getProportionateScreenHeight(40),
                 fontWeight: FontWeight.w700,
-                fontFamily: 'Muli'),
+                fontFamily: 'Muli',
+                color: Colors.black87),
           )
         ],
       ),

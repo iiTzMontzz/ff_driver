@@ -28,7 +28,7 @@ class ProfileBody extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       icon,
-                      color: kPrimaryColor,
+                      color: Colors.blue[400],
                       width: 22,
                     ),
                     SizedBox(width: 20),
@@ -40,7 +40,10 @@ class ProfileBody extends StatelessWidget {
                           fontSize: 14,
                           color: Colors.black54),
                     )),
-                    Icon(Icons.edit),
+                    Icon(
+                      Icons.edit,
+                      color: Colors.blue[400],
+                    ),
                   ],
                 ),
               )
@@ -57,7 +60,7 @@ class ProfileBody extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       icon,
-                      color: kPrimaryColor,
+                      color: Colors.blue[400],
                       width: 22,
                     ),
                     SizedBox(width: 20),
