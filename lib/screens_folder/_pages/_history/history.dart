@@ -1,4 +1,4 @@
-import 'package:ff_driver/screens_folder/_pages/_widgets/_history/history_page.dart';
+import 'package:ff_driver/screens_folder/_pages/_history/history_page.dart';
 import 'package:ff_driver/services_folder/_database/app_data.dart';
 import 'package:ff_driver/shared_folder/_buttons/divider.dart';
 import 'package:ff_driver/shared_folder/_constants/size_config.dart';
@@ -76,4 +76,6 @@ class TripHistory extends StatelessWidget {
       ),
     );
   }
+
+  void getRatings() {}
 }

@@ -130,7 +130,10 @@ class _HomeState extends State<Home> {
                           category: 'Profile',
                           color: Colors.white,
                           image: 'assets/images/user.png',
-                          onTap: () {}),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pushNamed('/myprofile');
+                          }),
                       buildPetCategory(
                         category: 'Trip Hsitory',
                         color: Colors.white,

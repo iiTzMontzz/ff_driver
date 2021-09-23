@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:ff_driver/messeging/chatroom_list.dart';
 import 'package:ff_driver/models_folder/trip_details.dart';
-import 'package:ff_driver/screens_folder/_pages/_widgets/canceled_trip.dart';
 import 'package:ff_driver/screens_folder/_pages/_functions/payments_dialog.dart';
+import 'package:ff_driver/screens_folder/_pages/_widgets/canceled_trip.dart';
 import 'package:ff_driver/services_folder/_helper/helper_method.dart';
 import 'package:ff_driver/services_folder/_helper/map_kit_helper.dart';
 import 'package:ff_driver/shared_folder/_buttons/main_button.dart';
