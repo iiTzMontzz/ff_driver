@@ -18,7 +18,6 @@ class _HistoryPageState extends State<HistoryPage> {
           'Trip History',
           style: TextStyle(fontFamily: 'Muli', color: Colors.black),
         ),
-        backgroundColor: Colors.blue[300],
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

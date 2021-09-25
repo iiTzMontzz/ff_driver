@@ -25,7 +25,6 @@ class _TripHistoryState extends State<TripHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue[300],
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
@@ -36,7 +35,6 @@ class _TripHistoryState extends State<TripHistory> {
       body: Column(
         children: [
           Container(
-            color: Colors.blue[300],
             width: double.infinity,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 40),
@@ -59,6 +57,7 @@ class _TripHistoryState extends State<TripHistory> {
               ),
             ),
           ),
+          CustomDivider(),
           FlatButton(
             padding: EdgeInsets.all(0),
             onPressed: () {

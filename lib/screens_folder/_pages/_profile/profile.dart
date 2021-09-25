@@ -26,7 +26,6 @@ class MyProfile extends StatelessWidget {
                 ),
               ),
               body: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(vertical: 20),
                 child: Column(
                   children: [
                     FadeAnimation(2, ProfileHeader()),

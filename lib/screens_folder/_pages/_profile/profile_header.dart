@@ -1,25 +1,29 @@
-import 'package:ff_driver/shared_folder/_constants/size_config.dart';
 import 'package:flutter/material.dart';
 
 class ProfileHeader extends StatelessWidget {
-  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: getProportionateScreenHeight(115),
-      width: getProportionateScreenWidth(115),
-      child: Stack(
-        fit: StackFit.expand,
-        clipBehavior: Clip.none,
-        children: [
-          Text(
-            'Profile',
-            style: TextStyle(
-                fontSize: getProportionateScreenHeight(40),
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Muli',
-                color: Colors.black87),
-          )
-        ],
+    return Container(
+      padding: EdgeInsets.only(right: 150, left: 150, bottom: 25, top: 25),
+      child: SizedBox(
+        height: 115,
+        width: 115,
+        child: Stack(
+          fit: StackFit.expand,
+          clipBehavior: Clip.none,
+          children: [
+            CircleAvatar(
+              backgroundImage: AssetImage("assets/images/walp.jpg"),
+            ),
+            Positioned(
+              right: -16,
+              bottom: 0,
+              child: SizedBox(
+                height: 46,
+                width: 46,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
