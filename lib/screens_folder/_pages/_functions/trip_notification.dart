@@ -128,6 +128,8 @@ class _TripNotificationState extends State<TripNotification> {
                               .reference()
                               .child('drivers/${currentDriverinfo.id}/newTrip');
                           declinetrip.set('waiting');
+                          HelperMethod.disableHomeTabLocationUpdates(
+                              currentDriverinfo.id);
                           showDialog(
                               context: context,
                               barrierDismissible: false,
@@ -190,13 +192,14 @@ class _TripNotificationState extends State<TripNotification> {
                 ));
         if (response == 'notfound') {
           newTripRef.set('waiting');
-          HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
+          HelperMethod.enableHomeTabLocationUpdatess(currentDriverinfo.id);
         }
       }
       if (thisTripID == widget.tripDetails.tripId) {
         assetsAudioPlayer.stop();
         newTripRef.set('Accepted');
         print("Trip Accepted");
+        HelperMethod.disableHomeTabLocationUpdates(currentDriverinfo.id);
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
                 NewTripPage(tripDetails: widget.tripDetails)));
@@ -213,7 +216,7 @@ class _TripNotificationState extends State<TripNotification> {
                 ));
         if (response == 'canceledout') {
           newTripRef.set('waiting');
-          HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
+          HelperMethod.enableHomeTabLocationUpdatess(currentDriverinfo.id);
         }
         assetsAudioPlayer.stop();
         //Trip Timed out
@@ -244,7 +247,7 @@ class _TripNotificationState extends State<TripNotification> {
                 ));
         if (response == 'notfound') {
           newTripRef.set('waiting');
-          HelperMethod.enableHomeTabLocationUpdates(currentDriverinfo.id);
+          HelperMethod.enableHomeTabLocationUpdatess(currentDriverinfo.id);
         }
       }
     });

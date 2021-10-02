@@ -3,6 +3,7 @@ class Driver {
   final String fullname;
   final String email;
   final String phone;
+  final String cartype;
 
-  Driver({this.uid, this.fullname, this.email, this.phone});
+  Driver({this.uid, this.fullname, this.email, this.phone, this.cartype});
 }

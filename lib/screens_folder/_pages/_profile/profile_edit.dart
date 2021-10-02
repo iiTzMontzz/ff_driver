@@ -74,8 +74,11 @@ class _ProfileEditState extends State<ProfileEdit> {
                     KeyboardUtil.hideKeyboard(context);
                     if (widget.edits == 'FullName') {
                       dynamic result = Data(uid: currentDriverinfo.id)
-                          .addDriver(value, currentDriverinfo.email,
-                              currentDriverinfo.phone);
+                          .addDriver(
+                              value,
+                              currentDriverinfo.email,
+                              currentDriverinfo.phone,
+                              currentDriverinfo.carType);
                       if (result != null) {
                         editProfile(widget.edits, value);
                       } else {
@@ -85,8 +88,11 @@ class _ProfileEditState extends State<ProfileEdit> {
                       }
                     } else {
                       dynamic result = Data(uid: currentDriverinfo.id)
-                          .addDriver(currentDriverinfo.fullName, value,
-                              currentDriverinfo.phone);
+                          .addDriver(
+                              currentDriverinfo.fullName,
+                              value,
+                              currentDriverinfo.phone,
+                              currentDriverinfo.carType);
                       if (result != null) {
                         editProfile(widget.edits, value);
                       } else {

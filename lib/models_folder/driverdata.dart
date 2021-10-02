@@ -8,6 +8,7 @@ class DriverData {
   String carModel;
   String carColor;
   String plateNumber;
+  String carType;
 
   DriverData({
     this.fullName,
@@ -17,6 +18,7 @@ class DriverData {
     this.carModel,
     this.carColor,
     this.plateNumber,
+    this.carType,
   });
 
   DriverData.fromSnapshot(DataSnapshot snapshot) {
@@ -27,5 +29,6 @@ class DriverData {
     carModel = snapshot.value['vehicle_detail']['car_model'];
     carColor = snapshot.value['vehicle_detail']['car_color'];
     plateNumber = snapshot.value['vehicle_detail']['plate_no'];
+    carType = snapshot.value['carType'];
   }
 }

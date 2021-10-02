@@ -30,13 +30,14 @@ class Data {
   }
 
   //Add Driver
-  Future addDriver(String fullname, String email, String phone) async {
+  Future addDriver(
+      String fullname, String email, String phone, String cartype) async {
     return await _db.collection('Drivers').document(uid).setData({
       'uid': uid,
       'Fullname': fullname,
       'Email': email,
       'phone': phone,
-      'carType': 'Normal'
+      'carType': cartype,
     });
   }
 

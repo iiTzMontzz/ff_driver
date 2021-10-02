@@ -26,6 +26,7 @@ class _SignupState extends State<Signup> {
   final _auth = AuthService();
   var _fullname = TextEditingController();
   var _email = TextEditingController();
+  var _cartype = TextEditingController();
 
   void showSnackBar(String title) {
     final snackbar = SnackBar(
@@ -61,14 +62,15 @@ class _SignupState extends State<Signup> {
             ProgressDialog(status: 'Please Wait...'));
     try {
       if (uid != null) {
-        await Data(uid: uid).addDriver(_fullname.text, _email.text, phone);
+        await Data(uid: uid)
+            .addDriver(_fullname.text, _email.text, phone, _cartype.text);
         DatabaseReference dbref =
             FirebaseDatabase.instance.reference().child('drivers/$uid');
         Map userMap = {
           'Email': _email.text,
           'FullName': _fullname.text,
           'phone': phone,
-          'carType': 'Normal'
+          'carType': _cartype.text,
         };
         await dbref.set(userMap);
         Navigator.of(context).pop();
@@ -112,6 +114,8 @@ class _SignupState extends State<Signup> {
                         SizedBox(height: getProportionateScreenHeight(30)),
                         buildEmail(),
                         SizedBox(height: getProportionateScreenHeight(30)),
+                        buildCartype(),
+                        SizedBox(height: getProportionateScreenHeight(30)),
                         FormError(errors: errors),
                         SizedBox(height: getProportionateScreenHeight(40)),
                         DefaultButton(
@@ -152,6 +156,31 @@ class _SignupState extends State<Signup> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  TextFormField buildCartype() {
+    return TextFormField(
+      controller: _cartype,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kNamelNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: kNamelNullError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Car Type",
+        hintText: "Normal",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
       ),
     );
   }

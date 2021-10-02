@@ -51,6 +51,7 @@ class _NewTripPageState extends State<NewTripPage> {
   void initState() {
     super.initState();
     acceptTrip();
+    HelperMethod.disableHomeTabLocationUpdates(currentDriverinfo.id);
   }
 
   @override
@@ -389,6 +390,8 @@ class _NewTripPageState extends State<NewTripPage> {
       }
       //Check Trip Status if canceled
       if (tripStatus == 'Canceled') {
+        tripPositionStream.cancel();
+        tripPositionStream = null;
         var response = await showDialog(
             context: context,
             barrierDismissible: false,
@@ -426,6 +429,8 @@ class _NewTripPageState extends State<NewTripPage> {
 
 // /Get Location Update of the driver
   void getlocationUpdate() {
+    HelperMethod.disableHomeTabLocationUpdates(currentDriverinfo.id);
+    print('Diara ohh');
     LatLng oldPosition = LatLng(0, 0);
     tripPositionStream = geolocator
         .getPositionStream(locationOptions)
@@ -460,6 +465,7 @@ class _NewTripPageState extends State<NewTripPage> {
 
 //Update Trip Detais
   void updateTripDetails() async {
+    HelperMethod.disableHomeTabLocationUpdates(currentDriverinfo.id);
     if (!isRequestedDirection) {
       isRequestedDirection = true;
       if (myPosition == null) {
@@ -485,6 +491,7 @@ class _NewTripPageState extends State<NewTripPage> {
 
 //Trip Time Duration
   void startTimer() {
+    HelperMethod.disableHomeTabLocationUpdates(currentDriverinfo.id);
     const interval = Duration(seconds: 1);
     timer = Timer.periodic(interval, (timer) {
       durationCounter++;
@@ -493,6 +500,7 @@ class _NewTripPageState extends State<NewTripPage> {
 
 //Edning Trip
   void endTrip(String uid) async {
+    HelperMethod.disableHomeTabLocationUpdates(currentDriverinfo.id);
     timer.cancel();
     HelperMethod.showprogressDialog(context, 'Calculating fares....');
     var currentLatLng = LatLng(myPosition.latitude, myPosition.longitude);
@@ -503,7 +511,7 @@ class _NewTripPageState extends State<NewTripPage> {
     tripRef.child('fare').set(fares.toString());
     tripRef.child('status').set('Ended');
     tripPositionStream.cancel();
-
+    tripPositionStream = null;
     showDialog(
         context: context,
         barrierDismissible: false,

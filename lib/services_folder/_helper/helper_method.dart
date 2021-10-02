@@ -70,7 +70,7 @@ class HelperMethod {
   }
 
   //Re Enable Geofire of the Driver
-  static void enableHomeTabLocationUpdates(String uid) async {
+  static void enableHomeTabLocationUpdatess(String uid) async {
     bool response = await Geofire.setLocation(
         uid, currentPosition.latitude, currentPosition.longitude);
     print("RE ENABLE GEOFIRE >>> $response");
