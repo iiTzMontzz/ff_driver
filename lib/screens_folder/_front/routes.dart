@@ -1,6 +1,8 @@
 import 'package:ff_driver/authentication_folder/car_details.dart';
 import 'package:ff_driver/authentication_folder/login.dart';
 import 'package:ff_driver/authentication_folder/sign_up.dart';
+import 'package:ff_driver/authentication_folder/uploadLiscense.dart';
+import 'package:ff_driver/authentication_folder/uploadPhoto.dart';
 import 'package:ff_driver/screens_folder/_front/get_started.dart';
 import 'package:ff_driver/screens_folder/_pages/_functions/get_online.dart';
 import 'package:ff_driver/screens_folder/_pages/_history/history.dart';
@@ -27,4 +29,6 @@ final Map<String, WidgetBuilder> routes = {
   '/history': (BuildContext context) => TripHistory(),
   '/earnings': (BuildContext context) => Earnings(),
   '/myprofile': (BuildContext context) => MyProfile(),
+  '/liscensePhoto': (BuildContext context) => UploadLisence(),
+  '/driverPhoto': (BuildContext context) => UploadSelfPhoto(),
 };

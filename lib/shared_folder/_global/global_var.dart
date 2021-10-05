@@ -13,6 +13,7 @@ DriverData currentDriverinfo;
 DatabaseReference tripRef;
 DatabaseReference tripRequestRef;
 double ratings = 0.0;
+bool flag = true;
 StreamSubscription<Position> hometabPositionStream;
 StreamSubscription<Position> tripPositionStream;
 final assetsAudioPlayer = AssetsAudioPlayer();

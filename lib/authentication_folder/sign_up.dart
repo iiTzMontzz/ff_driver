@@ -74,7 +74,7 @@ class _SignupState extends State<Signup> {
         };
         await dbref.set(userMap);
         Navigator.of(context).pop();
-        Navigator.of(context).pushReplacementNamed('/cardetails');
+        Navigator.of(context).pushReplacementNamed('/driverPhoto');
       } else {
         showSnackBar("Error");
       }

@@ -30,7 +30,12 @@ class HelperMethod {
         print('HELOOO MY NAME ISSSSSS>>>>>>>>>>>' +
             currentDriverinfo.fullName +
             currentDriverinfo.id);
-        getEarningsInfo(context, currentDriverinfo.id);
+        if (currentDriverinfo.id != null) {
+          if (flag == true) {
+            getEarningsInfo(context, currentDriverinfo.id);
+            flag = false;
+          }
+        }
       }
     });
     PushNotificationService pushNotificationService = PushNotificationService();

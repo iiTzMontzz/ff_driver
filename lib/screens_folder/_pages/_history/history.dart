@@ -1,5 +1,6 @@
 import 'package:ff_driver/screens_folder/_pages/_history/history_page.dart';
 import 'package:ff_driver/services_folder/_database/app_data.dart';
+import 'package:ff_driver/services_folder/_helper/helper_method.dart';
 import 'package:ff_driver/shared_folder/_buttons/divider.dart';
 import 'package:ff_driver/shared_folder/_constants/size_config.dart';
 import 'package:ff_driver/shared_folder/_global/global_var.dart';
@@ -18,6 +19,7 @@ class _TripHistoryState extends State<TripHistory> {
   @override
   void initState() {
     super.initState();
+    HelperMethod.getcurrentUserInfo(context);
     getRatings();
   }
 
@@ -47,7 +49,10 @@ class _TripHistoryState extends State<TripHistory> {
                           fontSize: 15,
                           fontWeight: FontWeight.w700)),
                   SizedBox(height: getProportionateScreenHeight(10)),
-                  Text(ratings.toStringAsFixed(2),
+                  Text(
+                      (ratings != null)
+                          ? ratings.toStringAsFixed(2)
+                          : 'Getting ratings..',
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Muli',
