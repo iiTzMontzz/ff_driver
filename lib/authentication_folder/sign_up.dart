@@ -1,4 +1,5 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:ff_driver/authentication_folder/Images_folder/guideline_dialog.dart';
 import 'package:ff_driver/models_folder/user.dart';
 import 'package:ff_driver/services_folder/_database/auth.dart';
 import 'package:ff_driver/services_folder/_database/data.dart';
@@ -73,8 +74,14 @@ class _SignupState extends State<Signup> {
           'carType': _cartype.text,
         };
         await dbref.set(userMap);
-        Navigator.of(context).pop();
-        Navigator.of(context).pushReplacementNamed('/driverPhoto');
+        var result = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => GuideDialog());
+        if (result == 'proceedna') {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushReplacementNamed('/driverPhoto');
+        }
       } else {
         showSnackBar("Error");
       }

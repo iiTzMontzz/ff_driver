@@ -3,7 +3,6 @@ import 'package:ff_driver/models_folder/direction_details.dart';
 import 'package:ff_driver/models_folder/driverdata.dart';
 import 'package:ff_driver/models_folder/history.dart';
 import 'package:ff_driver/services_folder/_database/app_data.dart';
-import 'package:ff_driver/services_folder/_helper/push_notif.dart';
 import 'package:ff_driver/services_folder/_helper/request_helper.dart';
 import 'package:ff_driver/shared_folder/_constants/progressDialog.dart';
 import 'package:ff_driver/shared_folder/_global/global_var.dart';
@@ -31,16 +30,10 @@ class HelperMethod {
             currentDriverinfo.fullName +
             currentDriverinfo.id);
         if (currentDriverinfo.id != null) {
-          if (flag == true) {
-            getEarningsInfo(context, currentDriverinfo.id);
-            flag = false;
-          }
+          getEarningsInfo(context, currentDriverinfo.id);
         }
       }
     });
-    PushNotificationService pushNotificationService = PushNotificationService();
-    pushNotificationService.initialize(context);
-    pushNotificationService.getToken();
   }
 
 //Gettin Trip request from the Directions APi

@@ -80,7 +80,7 @@ class Data {
   }
 
   //Stream for Vehicles
-  Stream<Vehicle> get vehicles {
+  Stream<Vehicle> get vehicledata {
     return _db
         .collection('Drivers')
         .document(uid)

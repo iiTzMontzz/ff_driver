@@ -1,24 +1,25 @@
 import 'dart:io';
+import 'package:ff_driver/models_folder/user.dart';
 import 'package:ff_driver/shared_folder/_constants/FadeAnimation.dart';
 import 'package:ff_driver/shared_folder/_constants/progressDialog.dart';
 import 'package:ff_driver/shared_folder/_constants/size_config.dart';
 import 'package:ff_driver/shared_folder/_constants/splash.dart';
-import 'package:ff_driver/shared_folder/_global/global_var.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
-class UploadLisence extends StatefulWidget {
+class RearCarView extends StatefulWidget {
   @override
-  _UploadLisenceState createState() => _UploadLisenceState();
+  _RearCarViewState createState() => _RearCarViewState();
 }
 
-class _UploadLisenceState extends State<UploadLisence> {
+class _RearCarViewState extends State<RearCarView> {
   String imageUrl;
-
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     SizeConfig().init(context);
     return Scaffold(
       body: Column(
@@ -27,7 +28,7 @@ class _UploadLisenceState extends State<UploadLisence> {
           FadeAnimation(
               2,
               Text(
-                "Liscense Photo",
+                "Rear car View Image",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: getProportionateScreenWidth(28),
@@ -36,11 +37,20 @@ class _UploadLisenceState extends State<UploadLisence> {
               )),
           SizedBox(height: SizeConfig.screenHeight * 0.12),
           (imageUrl != null)
-              ? Image.network(imageUrl)
+              ? Center(
+                  child: Container(
+                    height: 300,
+                    width: 300,
+                    child: Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
               : Center(
                   child: RaisedButton(
                     onPressed: () {
-                      chooseImage();
+                      chooseImage(user.uid);
                     },
                     child: Text('Choose Image'),
                     color: Colors.lightBlue,
@@ -51,7 +61,7 @@ class _UploadLisenceState extends State<UploadLisence> {
               ? Column(children: [
                   RaisedButton(
                     onPressed: () {
-                      chooseImage();
+                      chooseImage(user.uid);
                     },
                     child: Text('Choose Image'),
                     color: Colors.lightBlue,
@@ -74,7 +84,7 @@ class _UploadLisenceState extends State<UploadLisence> {
     );
   }
 
-  chooseImage() async {
+  chooseImage(String uid) async {
     final _picker = ImagePicker();
     final _storage = FirebaseStorage.instance;
     PickedFile imageLiscense;
@@ -94,7 +104,7 @@ class _UploadLisenceState extends State<UploadLisence> {
       if (imageLiscense != null) {
         var snapshot = await _storage
             .ref()
-            .child('lisencesImages/${currentDriverinfo.id}')
+            .child('rearcarview/$uid')
             .putFile(file)
             .onComplete;
         var downloadUrl = await snapshot.ref.getDownloadURL();

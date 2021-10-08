@@ -35,7 +35,7 @@ class PushNotificationService {
 
     DatabaseReference tokenRef = FirebaseDatabase.instance
         .reference()
-        .child('drivers/${currentuser.uid}/token');
+        .child('drivers/${currentDriverinfo.id}/token');
     tokenRef.set(token);
 
     fcm.subscribeToTopic('alldrivers');

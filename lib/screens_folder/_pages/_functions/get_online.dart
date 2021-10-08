@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:ff_driver/models_folder/user.dart';
 import 'package:ff_driver/services_folder/_helper/helper_method.dart';
+import 'package:ff_driver/services_folder/_helper/push_notif.dart';
 import 'package:ff_driver/shared_folder/_buttons/third_button.dart';
 import 'package:ff_driver/shared_folder/_constants/size_config.dart';
 import 'package:ff_driver/shared_folder/_global/confirm_status.dart';
@@ -33,6 +34,9 @@ class _GetOnlineState extends State<GetOnline> {
   void initState() {
     super.initState();
     HelperMethod.getcurrentUserInfo(context);
+    PushNotificationService pushNotificationService = PushNotificationService();
+    pushNotificationService.initialize(context);
+    pushNotificationService.getToken();
   }
 
   @override

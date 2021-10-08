@@ -61,8 +61,7 @@ class _NewTripPageState extends State<NewTripPage> {
       body: Stack(
         children: [
           GoogleMap(
-            padding: EdgeInsets.only(
-                bottom: getProportionateScreenHeight(mapPaddingBottom)),
+            padding: EdgeInsets.only(bottom: getProportionateScreenHeight(360)),
             compassEnabled: true,
             mapType: MapType.normal,
             circles: _circles,
