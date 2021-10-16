@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:ff_driver/models_folder/user.dart';
-import 'package:ff_driver/shared_folder/_constants/FadeAnimation.dart';
 import 'package:ff_driver/shared_folder/_constants/progressDialog.dart';
 import 'package:ff_driver/shared_folder/_constants/size_config.dart';
 import 'package:ff_driver/shared_folder/_constants/splash.dart';
@@ -25,16 +24,14 @@ class _FrontCarViewState extends State<FrontCarView> {
       body: Column(
         children: [
           SizedBox(height: SizeConfig.screenHeight * 0.1),
-          FadeAnimation(
-              2,
-              Text(
-                "Front Car View Image",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: getProportionateScreenWidth(28),
-                  fontWeight: FontWeight.bold,
-                ),
-              )),
+          Text(
+            "Front Car View Image",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: getProportionateScreenWidth(28),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           SizedBox(height: SizeConfig.screenHeight * 0.12),
           (imageUrl != null)
               ? Center(

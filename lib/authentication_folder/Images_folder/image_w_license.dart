@@ -9,14 +9,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-class UploadLisence extends StatefulWidget {
+class ImageWLicense extends StatefulWidget {
   @override
-  _UploadLisenceState createState() => _UploadLisenceState();
+  _ImageWLicenseState createState() => _ImageWLicenseState();
 }
 
-class _UploadLisenceState extends State<UploadLisence> {
+class _ImageWLicenseState extends State<ImageWLicense> {
   String imageUrl;
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -26,7 +25,7 @@ class _UploadLisenceState extends State<UploadLisence> {
         children: [
           SizedBox(height: SizeConfig.screenHeight * 0.1),
           Text(
-            "Liscense Image",
+            "Picture with License",
             style: TextStyle(
               color: Colors.black,
               fontSize: getProportionateScreenWidth(28),
@@ -70,7 +69,7 @@ class _UploadLisenceState extends State<UploadLisence> {
                       Navigator.of(context).pop();
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              Splash(route: '/imagewlcense')));
+                              Splash(route: '/frontcarview')));
                     },
                     child: Text('Proceed'),
                     color: Colors.lightBlue,
@@ -102,7 +101,7 @@ class _UploadLisenceState extends State<UploadLisence> {
       if (imageLiscense != null) {
         var snapshot = await _storage
             .ref()
-            .child('lisencesImages/$uid')
+            .child('imagewlicense/$uid')
             .putFile(file)
             .onComplete;
         var downloadUrl = await snapshot.ref.getDownloadURL();

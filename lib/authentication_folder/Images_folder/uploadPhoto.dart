@@ -29,15 +29,12 @@ class _UploadSelfPhotoState extends State<UploadSelfPhoto> {
       body: Column(
         children: [
           SizedBox(height: SizeConfig.screenHeight * 0.1),
-          FadeAnimation(
-            2,
-            Text(
-              "Profile Image",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: getProportionateScreenWidth(28),
-                fontWeight: FontWeight.bold,
-              ),
+          Text(
+            "Profile Image",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: getProportionateScreenWidth(28),
+              fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(height: getProportionateScreenHeight(15)),

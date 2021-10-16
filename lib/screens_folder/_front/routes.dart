@@ -1,4 +1,5 @@
 import 'package:ff_driver/authentication_folder/Images_folder/front_car_view.dart';
+import 'package:ff_driver/authentication_folder/Images_folder/image_w_license.dart';
 import 'package:ff_driver/authentication_folder/Images_folder/rear_car_view.dart';
 import 'package:ff_driver/authentication_folder/car_details.dart';
 import 'package:ff_driver/authentication_folder/login.dart';
@@ -35,4 +36,5 @@ final Map<String, WidgetBuilder> routes = {
   '/driverPhoto': (BuildContext context) => UploadSelfPhoto(),
   '/frontcarview': (BuildContext context) => FrontCarView(),
   '/rearcarview': (BuildContext context) => RearCarView(),
+  '/imagewlcense': (BuildContext context) => ImageWLicense(),
 };
